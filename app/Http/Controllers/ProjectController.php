@@ -6,17 +6,18 @@ use App\Actions\DeleteProjectAction;
 use App\Actions\UpsertProjectAction;
 use App\Http\Requests\ProjectRequest;
 use App\Models\Project;
+use App\ViewModels\GetProjectViewModel;
 use App\ViewModels\UpsertProjectViewModel;
 use Illuminate\Contracts\Support\Renderable;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class ProjectController extends Controller
 {
-
-    public function index(): Renderable
+    public function index(GetProjectViewModel $viewModel): Renderable
     {
-        $projects = Project::with('user')->latest()->paginate(10);
-        return view('projects.index', compact('projects'));
+        return view('projects.index', [
+            'projects' => $viewModel->projects()
+        ]);
     }
 
     public function create(): Renderable

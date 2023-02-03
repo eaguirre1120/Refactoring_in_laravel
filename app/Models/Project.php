@@ -11,6 +11,8 @@ class Project extends Model
 
     protected $fillable = ['user_id', 'name', 'description'];
 
+    protected $perPage = 10; 
+    
     public function user() {
         return $this->belongsTo(User::class);
     }
