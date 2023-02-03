@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProjectRequest;
 use App\Models\Project;
+use App\ViewModels\UpsertProjectViewModel;
 use Illuminate\Contracts\Support\Renderable;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -18,11 +19,9 @@ class ProjectController extends Controller
 
     public function create(): Renderable
     {
-        $project = new Project;
-        $title = __('Crear proyecto');
-        $textButton = __('Crear');
-        $route = route('projects.store');
-        return view('projects.create', compact('title', 'textButton', 'route', 'project'));
+        $viewModel = new UpsertProjectViewModel();
+        
+        return view('projects.create', $viewModel->toArray()['form_data']);
     }
 
     public function store(ProjectRequest $request): RedirectResponse
@@ -37,11 +36,9 @@ class ProjectController extends Controller
 
     public function edit(Project $project): Renderable
     {
-        $update = true;
-        $title = __('Editar proyecto');
-        $textButton = __('Actualizar');
-        $route = route('projects.update', ['project' => $project]);
-        return view('projects.edit', compact('update', 'title', 'textButton', 'route', 'project'));
+        $viewModel = new UpsertProjectViewModel($project);
+        
+        return view('projects.edit', $viewModel->toArray()['form_data']);
     }
 
     public function update(ProjectRequest $request, Project $project): RedirectResponse
