@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\UpsertProjectAction;
 use App\Http\Requests\ProjectRequest;
 use App\Models\Project;
 use App\ViewModels\UpsertProjectViewModel;
@@ -20,15 +21,14 @@ class ProjectController extends Controller
     public function create(): Renderable
     {
         $viewModel = new UpsertProjectViewModel();
-        
+
         return view('projects.create', $viewModel->toArray()['form_data']);
     }
 
     public function store(ProjectRequest $request): RedirectResponse
     {
 
-        $request->merge(['user_id' => auth()->id()]);
-        Project::create($request->only('user_id', 'name', 'description'));
+        UpsertProjectAction::execute(auth()->user(), $request);
 
         return redirect(route('projects.index'))
             ->with('success', __('¡Proyecto creado!'));
@@ -41,14 +41,12 @@ class ProjectController extends Controller
         return view('projects.edit', $viewModel->toArray()['form_data']);
     }
 
-    public function update(ProjectRequest $request, Project $project): RedirectResponse
+    public function update(ProjectRequest $request): RedirectResponse
     {
-        $this->validate($request, [
-            'name' => 'required|unique:projects,name,' . $project->id,
-            'description' => 'nullable|string|min:10'
-        ]);
-        $project->fill($request->only('name', 'description'))->save();
-        return back()->with('success', __('¡Proyecto actualizado!'));
+        UpsertProjectAction::execute(auth()->user(), $request);
+
+        return redirect(route('projects.index'))
+            ->with('success', __('¡Proyecto actualizado!'));
     }
 
     public function destroy(Project $project): RedirectResponse
