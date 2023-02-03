@@ -9,16 +9,7 @@ class Project extends Model
 {
     use HasFactory;
 
-    protected $fillable = ["name", "description"];
-
-    protected static function boot() {
-        parent::boot();
-        self::creating(function ($table) {
-            if ( ! app()->runningInConsole()) {
-                $table->user_id = auth()->id();
-            }
-        });
-    }
+    protected $fillable = ['user_id', 'name', 'description'];
 
     public function user() {
         return $this->belongsTo(User::class);
