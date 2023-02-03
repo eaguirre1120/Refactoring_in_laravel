@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\DeleteProjectAction;
 use App\Actions\UpsertProjectAction;
 use App\Http\Requests\ProjectRequest;
 use App\Models\Project;
@@ -49,9 +50,9 @@ class ProjectController extends Controller
             ->with('success', __('¡Proyecto actualizado!'));
     }
 
-    public function destroy(Project $project): RedirectResponse
+    public function destroy(int $id): RedirectResponse
     {
-        $project->delete();
+        DeleteProjectAction::execute($id);
         return back()->with('success', __('¡Proyecto eliminado!'));
     }
 }
