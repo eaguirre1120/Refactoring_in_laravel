@@ -4,6 +4,8 @@ Example of refactoring in laravel 9 using things such as:
 - Requests
 - Actions
 - ViewModels
+- Model Base
+- Model Builders
 
 ## How to install
 

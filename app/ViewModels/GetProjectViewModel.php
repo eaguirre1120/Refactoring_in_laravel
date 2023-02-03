@@ -8,6 +8,9 @@ final class GetProjectViewModel extends ViewModel
 {
     public function projects(): LengthAwarePaginator
     {
-        return Project::with('user:id,name')->latest()->paginate();
+        return Project::forCurrentUser()
+            ->with('user:id,name')
+            ->latest()
+            ->paginate();
     }
 }

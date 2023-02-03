@@ -16,6 +16,12 @@ class DatabaseSeeder extends Seeder
             "password" => bcrypt("password")
         ]);
 
+        User::factory()->times(1)->create([
+            "name" => "Julian Alvarez",
+            "email" => "info@jadev.com",
+            "password" => bcrypt("password")
+        ]);
+
         Project::factory()->times(40)->create();
     }
 }
