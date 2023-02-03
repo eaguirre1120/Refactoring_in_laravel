@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProjectRequest;
 use App\Models\Project;
 use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class ProjectController extends Controller
@@ -25,12 +25,8 @@ class ProjectController extends Controller
         return view('projects.create', compact('title', 'textButton', 'route', 'project'));
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(ProjectRequest $request): RedirectResponse
     {
-        $this->validate($request, [
-            'name' => 'required|max:140|unique:projects',
-            'description' => 'nullable|string|min:10'
-        ]);
 
         $request->merge(['user_id' => auth()->id()]);
         Project::create($request->only('user_id', 'name', 'description'));
@@ -48,7 +44,7 @@ class ProjectController extends Controller
         return view('projects.edit', compact('update', 'title', 'textButton', 'route', 'project'));
     }
 
-    public function update(Request $request, Project $project): RedirectResponse
+    public function update(ProjectRequest $request, Project $project): RedirectResponse
     {
         $this->validate($request, [
             'name' => 'required|unique:projects,name,' . $project->id,
