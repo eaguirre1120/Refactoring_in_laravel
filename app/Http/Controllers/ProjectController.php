@@ -54,6 +54,7 @@ class ProjectController extends Controller
     public function destroy(int $id): RedirectResponse
     {
         DeleteProjectAction::execute($id);
-        return back()->with('success', __('¡Proyecto eliminado!'));
+        return redirect(route('projects.index'))
+            ->with('success', __('¡Proyecto eliminado!'));
     }
 }
