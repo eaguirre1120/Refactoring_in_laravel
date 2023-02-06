@@ -11,7 +11,7 @@ Example of refactoring in laravel 9 using things such as:
 
 ## How to install
 
-1. Create database *refactor_crud_laavel* on your mysql server. 
+1. Create database *refactor_crud_laravel* on your mysql server. 
 2. compser install
 3. npm install
 4. php artisan migrate
